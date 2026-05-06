@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
@@ -103,7 +104,7 @@ class BarangController extends Controller
         if ($request->hasFile('foto')) {
             // Hapus foto lama
             if ($barang->foto) {
-                \Storage::disk('public')->delete($barang->foto);
+                Storage::disk('public')->delete($barang->foto);
             }
             $data['foto'] = $request->file('foto')
                 ->store('foto_barang', 'public');
@@ -120,7 +121,7 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
 
         if ($barang->foto) {
-            \Storage::disk('public')->delete($barang->foto);
+            Storage::disk('public')->delete($barang->foto);
         }
 
         $barang->delete();
